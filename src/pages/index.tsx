@@ -1,12 +1,14 @@
 import * as React from "react";
 import type { NextPage } from "next";
-import { getTodos, Todo } from "~/supabase_client";
+import { useStore, useEvent } from "effector-react/scope";
+import { todoModel } from "~/entities/todo";
 
 const Home: NextPage = () => {
-  const [todos, setTodos] = React.useState<Todo[] | null>([]);
+  const todos = useStore(todoModel.$todos);
+  const fetchTodos = useEvent(todoModel.fetchTodos);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    getTodos().then(setTodos);
+    fetchTodos();
   };
 
   return (
@@ -20,7 +22,7 @@ const Home: NextPage = () => {
         Get Todos
       </button>
       <ul>
-        {todos?.map((todo) => <li key={todo.id}>{todo.title}</li>) ?? "Empty"}
+        {todos.map((todo) => <li key={todo.id}>{todo.title}</li>) ?? "Empty"}
       </ul>
     </div>
   );

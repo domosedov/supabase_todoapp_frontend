@@ -1,18 +1,19 @@
 import * as React from "react";
 import type { NextPage } from "next";
-import { supabase } from "~/supabase_client";
+import { useEvent } from "effector-react/scope";
+import { authModel } from "~/entities/auth";
 
 const SignUpPage: NextPage = () => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const signUp = useEvent(authModel.signUp);
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const result = await supabase.auth.signUp({ email, password });
-    console.log("result", result);
+    signUp({ email, password });
   };
   return (
-    <div className="h-screen flex items-center justify-center bg-green-50">
-      <div className="p-10 rounded-lg shadow-2xl bg-white">
+    <div className="h-full flex items-center justify-center bg-green-50">
+      <div className="p-5 md:p-10 rounded-lg shadow-2xl bg-white w-[calc(100vw-2rem)] max-w-sm">
         <h1 className="text-2xl font-bold">Sign up</h1>
         <div className="mt-8">
           <form onSubmit={handleSubmit}>
