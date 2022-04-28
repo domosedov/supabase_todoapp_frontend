@@ -1,6 +1,6 @@
 import * as React from "react";
 import type { NextPage } from "next";
-import { supabase } from "~/model";
+import { supabase } from "~/supabase_client";
 
 const SignUpPage: NextPage = () => {
   const [email, setEmail] = React.useState("");

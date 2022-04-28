@@ -1,5 +1,6 @@
 import * as React from "react";
-import { fork, serialize, Scope } from "effector";
+import { fork, serialize } from "effector";
+import type { Scope } from "effector";
 import { isBrowser, isDev } from "~/shared/env";
 
 let clientScope: Scope;
