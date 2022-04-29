@@ -1,4 +1,12 @@
 {
   "presets": ["next/babel"],
-  "plugins": ["effector/babel-plugin"]
+  "plugins": [
+    [
+      "effector/babel-plugin",
+      {
+        "debugSids": true,
+        "factories": ["@effector/reflect", "@effector/reflect/ssr", "patronum"]
+      }
+    ]
+  ]
 }

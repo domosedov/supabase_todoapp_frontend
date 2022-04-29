@@ -1,7 +1,16 @@
 import * as React from "react";
-import type { NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
 import { useStore, useEvent } from "effector-react/scope";
 import { todoModel } from "~/entities/todo";
+import { supabase } from "~/supabase_client";
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { data, error } = await supabase.auth.api.getUserByCookie(ctx.req);
+
+  return {
+    props: {},
+  };
+};
 
 const Home: NextPage = () => {
   const todos = useStore(todoModel.$todos);
