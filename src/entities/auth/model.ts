@@ -8,13 +8,14 @@ import {
   scopeBind,
   split,
 } from "effector";
-import { status } from "patronum";
+import { status } from "patronum/status";
+import invariant from "tiny-invariant";
 import { supabase } from "~/supabase_client";
 import type { AuthStateChangePayload, Credentials } from "./types";
 import { Nullable } from "~/shared/types";
 import { ApiError, Session, Subscription, User } from "@supabase/supabase-js";
 import { getClientScope } from "~/scope";
-import { GetServerSidePropsContext } from "next";
+import type { GetServerSidePropsContext } from "next";
 
 export const $authStateListener = createStore<Nullable<Subscription>>(null);
 export const authSubscribe = createEvent();
@@ -26,7 +27,8 @@ const setServerSessionFx = createEffect<AuthStateChangePayload, void>();
 
 authSubscribeFx.use(() => {
   const scope = getClientScope();
-  const bindedAuthStateChanged = scopeBind(authStateChanged, { scope: scope! });
+  invariant(scope, "Missing scope on authSubscribeFx");
+  const bindedAuthStateChanged = scopeBind(authStateChanged, { scope });
   const { data: listener } = supabase.auth.onAuthStateChange((event, session) =>
     bindedAuthStateChanged({ event, session })
   );

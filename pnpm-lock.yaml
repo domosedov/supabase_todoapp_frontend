@@ -19,6 +19,7 @@ specifiers:
   react: ^18.1.0
   react-dom: ^18.1.0
   tailwindcss: ^3.0.24
+  tiny-invariant: ^1.2.0
   typescript: 4.6.4
 
 dependencies:
@@ -31,6 +32,7 @@ dependencies:
   patronum: 1.8.2_effector@22.3.0
   react: 18.1.0
   react-dom: 18.1.0_react@18.1.0
+  tiny-invariant: 1.2.0
 
 devDependencies:
   '@types/node': 17.0.32
@@ -2224,6 +2226,10 @@ packages:
       globalyzer: 0.1.0
       globrex: 0.1.2
     dev: true
+
+  /tiny-invariant/1.2.0:
+    resolution: {integrity: sha512-1Uhn/aqw5C6RI4KejVeTg6mIS7IqxnLJ8Mv2tV5rTc0qWobay7pDUz6Wi392Cnc8ak1H0F2cjoRzb2/AW4+Fvg==}
+    dev: false
 
   /to-regex-range/5.0.1:
     resolution: {integrity: sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ==}
