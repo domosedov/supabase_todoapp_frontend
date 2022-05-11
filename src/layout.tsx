@@ -9,39 +9,39 @@ export const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children })
   const isLoadingUser = useStore(authModel.$showUserLoading)
 
   return (
-    <div className='min-h-screen grid grid-rows-[auto_1fr]'>
-      <header className='bg-green-400 sticky top-0'>
+    <div className='grid min-h-screen grid-rows-[auto_1fr]'>
+      <header className='sticky top-0 bg-green-400'>
         <div className='px-4 py-2'>
           <nav className='flex items-center gap-4'>
             <Link href={`/`}>
-              <a className='bg-green-500 text-white uppercase text-sm font-semibold px-3 py-1 duration-200 hover:bg-green-600 rounded'>
+              <a className='rounded bg-green-500 px-3 py-1 text-sm font-semibold uppercase text-white duration-200 hover:bg-green-600'>
                 Home
               </a>
             </Link>
             <Link href={`/counter`}>
-              <a className='bg-green-500 text-white uppercase text-sm font-semibold px-3 py-1 duration-200 hover:bg-green-600 rounded'>
+              <a className='rounded bg-green-500 px-3 py-1 text-sm font-semibold uppercase text-white duration-200 hover:bg-green-600'>
                 Counter
               </a>
             </Link>
             <Link href={`/todos`}>
-              <a className='bg-green-500 text-white uppercase text-sm font-semibold px-3 py-1 duration-200 hover:bg-green-600 rounded'>
+              <a className='rounded bg-green-500 px-3 py-1 text-sm font-semibold uppercase text-white duration-200 hover:bg-green-600'>
                 Todos
               </a>
             </Link>
             <Link href={`/signup`}>
-              <a className='bg-green-500 text-white uppercase text-sm font-semibold px-3 py-1 duration-200 hover:bg-green-600 rounded'>
+              <a className='rounded bg-green-500 px-3 py-1 text-sm font-semibold uppercase text-white duration-200 hover:bg-green-600'>
                 Регистрация
               </a>
             </Link>
             <Link href={`/signin`}>
-              <a className='bg-green-500 text-white uppercase text-sm font-semibold px-3 py-1 duration-200 hover:bg-green-600 rounded'>
+              <a className='rounded bg-green-500 px-3 py-1 text-sm font-semibold uppercase text-white duration-200 hover:bg-green-600'>
                 Войти
               </a>
             </Link>
             <button
               type='button'
               onClick={signOut}
-              className='bg-green-500 text-white uppercase text-sm font-semibold px-3 py-1 duration-200 hover:bg-green-600 rounded'
+              className='rounded bg-green-500 px-3 py-1 text-sm font-semibold uppercase text-white duration-200 hover:bg-green-600'
             >
               Выйти
             </button>

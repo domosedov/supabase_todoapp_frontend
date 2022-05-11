@@ -12,13 +12,13 @@ const SignInPage: NextPage = () => {
     signIn({ email, password })
   }
   return (
-    <div className='h-full flex items-center justify-center bg-green-50'>
-      <div className='p-5 md:p-10 rounded-lg shadow-2xl bg-white w-[calc(100vw-2rem)] max-w-sm'>
+    <div className='flex h-full items-center justify-center bg-green-50'>
+      <div className='w-[calc(100vw-2rem)] max-w-sm rounded-lg bg-white p-5 shadow-2xl md:p-10'>
         <h1 className='text-2xl font-bold'>Sign In</h1>
         <div className='mt-8'>
           <form onSubmit={handleSubmit}>
             <div className='flex flex-col'>
-              <label htmlFor='email' className='text-xs uppercase text-gray-700 font-medium'>
+              <label htmlFor='email' className='text-xs font-medium uppercase text-gray-700'>
                 Email
               </label>
               <input
@@ -26,11 +26,11 @@ const SignInPage: NextPage = () => {
                 id='email'
                 value={email}
                 onChange={event => setEmail(event.target.value)}
-                className='border rounded p-2 mt-2'
+                className='mt-2 rounded border p-2'
               />
             </div>
-            <div className='flex flex-col mt-5'>
-              <label htmlFor='password' className='text-xs uppercase text-gray-700 font-medium'>
+            <div className='mt-5 flex flex-col'>
+              <label htmlFor='password' className='text-xs font-medium uppercase text-gray-700'>
                 Password
               </label>
               <input
@@ -38,11 +38,11 @@ const SignInPage: NextPage = () => {
                 id='password'
                 value={password}
                 onChange={event => setPassword(event.target.value)}
-                className='border rounded p-2 mt-2'
+                className='mt-2 rounded border p-2'
               />
             </div>
             <button
-              className='mt-5 px-6 py-2 bg-green-500 text-white uppercase text-sm font-bold rounded'
+              className='mt-5 rounded bg-green-500 px-6 py-2 text-sm font-bold uppercase text-white'
               type='submit'
             >
               Sign In

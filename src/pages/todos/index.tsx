@@ -24,7 +24,10 @@ const TodosPage: NextPage = () => {
   const todos = useStore(todoModel.$todos)
   return (
     <div className='container mx-auto px-2'>
-      <h1 className='font-bold'>Todos</h1>
+      <h1 className='text-center text-3xl font-bold text-gray-800'>Todos</h1>
+      <Link href='/todos/create'>
+        <a>Create</a>
+      </Link>
       <ul>
         {todos.map(todo => (
           <li key={todo.id}>{todo.title}</li>

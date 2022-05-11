@@ -31,7 +31,7 @@ const Home: NextPage = () => {
       <button
         type='button'
         onClick={handleClick}
-        className='px-6 py-2 rounded bg-orange-500 text-white text-sm uppercase font-bold tracking-wider'
+        className='rounded bg-orange-500 px-6 py-2 text-sm font-bold uppercase tracking-wider text-white'
       >
         Get Todos
       </button>

@@ -4,6 +4,6 @@
     "plugin:effector/recommended",
     "plugin:effector/scope",
     "next/core-web-vitals",
-    "prettier"
+    "plugin:prettier/recommended"
   ]
 }
