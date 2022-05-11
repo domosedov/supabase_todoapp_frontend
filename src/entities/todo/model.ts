@@ -9,7 +9,8 @@ export const fetchTodosFx = createEffect<void, Todo[]>();
 export const fetchTodos = createEvent();
 
 fetchTodosFx.use(async () => {
-  const { data } = await supabase.from<Todo>("todos").select();
+  const { data, error } = await supabase.from<Todo>("todos").select();
+  if (error) throw error;
   return data ?? [];
 });
 

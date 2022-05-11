@@ -16,6 +16,7 @@ import { Nullable } from "~/shared/types";
 import { ApiError, Session, Subscription, User } from "@supabase/supabase-js";
 import { getClientScope } from "~/scope";
 import type { GetServerSidePropsContext } from "next";
+import { throwError } from "~/shared/lib/throw_error";
 
 export const $authStateListener = createStore<Nullable<Subscription>>(null);
 export const authSubscribe = createEvent();
@@ -79,9 +80,7 @@ export const signInFx = createEffect<Credentials, void, ApiError>();
 
 signInFx.use(async (credentials) => {
   const { error } = await supabase.auth.signIn(credentials);
-  if (error) {
-    throw error;
-  }
+  if (error) throwError(error.message);
 });
 
 sample({
@@ -163,7 +162,8 @@ $cookieUser
 checkSessionFx.use(() => supabase.auth.session());
 
 getUserByCookieFx.use(async (req) => {
-  const { data: user } = await supabase.auth.api.getUserByCookie(req);
+  const { data: user, error } = await supabase.auth.api.getUserByCookie(req);
+  if (error) throwError(error.message);
   return user;
 });
 
