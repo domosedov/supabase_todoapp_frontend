@@ -1,2 +1,2 @@
-export * as todoModel from "./model";
-export * from "./types";
+export * as todoModel from './model'
+export * from './types'

@@ -1,1 +1,1 @@
-export * as counterModel from "./model";
+export * as counterModel from './model'

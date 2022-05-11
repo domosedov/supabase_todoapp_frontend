@@ -1,8 +1,8 @@
-import * as React from "react";
-import { fork, serialize, Scope } from "effector";
-import { isBrowser, isDev } from "~/shared/env";
+import * as React from 'react'
+import { fork, serialize, Scope } from 'effector'
+import { isBrowser, isDev } from '~/shared/env'
 
-let clientScope: Scope;
+let clientScope: Scope
 
 const initializeScope = (initialData: Record<string, unknown>) => {
   // if (isDev) {
@@ -15,16 +15,16 @@ const initializeScope = (initialData: Record<string, unknown>) => {
       ...(clientScope ? serialize(clientScope) : {}),
       ...initialData,
     },
-  });
+  })
 
   if (isBrowser) {
-    clientScope = scope;
+    clientScope = scope
   }
 
-  return scope;
-};
+  return scope
+}
 
 export const useScope = (initialData = {}) =>
-  React.useMemo(() => initializeScope(initialData), [initialData]);
+  React.useMemo(() => initializeScope(initialData), [initialData])
 
-export const getClientScope = (): Scope | undefined => clientScope;
+export const getClientScope = (): Scope | undefined => clientScope

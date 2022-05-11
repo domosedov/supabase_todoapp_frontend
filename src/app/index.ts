@@ -1,1 +1,1 @@
-export * as appModel from "./model";
+export * as appModel from './model'
