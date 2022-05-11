@@ -1,14 +1,19 @@
 import * as React from "react";
 import type { GetServerSideProps, NextPage } from "next";
+import { fork, serialize, allSettled } from "effector";
 import { useStore, useEvent } from "effector-react/scope";
 import { todoModel } from "~/entities/todo";
-import { supabase } from "~/supabase_client";
+import { authModel } from "~/entities/auth";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { data, error } = await supabase.auth.api.getUserByCookie(ctx.req);
+  const scope = fork();
+
+  await allSettled(authModel.getUserByCookie, { scope, params: ctx.req });
+
+  const serialized = serialize(scope);
 
   return {
-    props: {},
+    props: { initialState: serialized },
   };
 };
 
