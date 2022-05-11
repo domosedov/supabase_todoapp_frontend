@@ -8,6 +8,7 @@ export const AppLayout: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const signOut = useEvent(authModel.signOut);
   const isLoggedIn = useStore(authModel.$isLoggedIn);
+  const isLoadingUser = useStore(authModel.$showUserLoading);
 
   return (
     <div className="min-h-screen grid grid-rows-[auto_1fr]">
@@ -41,7 +42,13 @@ export const AppLayout: React.FC<{ children: React.ReactNode }> = ({
             >
               Выйти
             </button>
-            {isLoggedIn ? <div>Залогинен</div> : <div>Незалогинен</div>}
+            {isLoadingUser ? (
+              <span>Loading...</span>
+            ) : isLoggedIn ? (
+              <div>Залогинен</div>
+            ) : (
+              <div>Незалогинен</div>
+            )}
           </nav>
         </div>
       </header>

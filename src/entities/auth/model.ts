@@ -1,4 +1,5 @@
 import {
+  attach,
   combine,
   createEffect,
   createEvent,
@@ -7,7 +8,7 @@ import {
   scopeBind,
   split,
 } from "effector";
-import { debug, status } from "patronum";
+import { status } from "patronum";
 import { supabase } from "~/supabase_client";
 import type { AuthStateChangePayload, Credentials } from "./types";
 import { Nullable } from "~/shared/types";
@@ -51,8 +52,6 @@ sample({
   target: authUnsubscribeFx,
 });
 
-authStateChanged.watch((payload) => console.log("called with", payload));
-
 setServerSessionFx.use(async ({ event, session }) => {
   await fetch("/api/auth-session", {
     method: "POST",
@@ -70,23 +69,6 @@ sample({
 const { signedOut } = split(authStateChanged, {
   signedIn: (payload) => payload.event === "SIGNED_IN",
   signedOut: (payload) => payload.event === "SIGNED_OUT",
-});
-
-// Check auth session
-export const checkSession = createEvent();
-const checkSessionFx = createEffect<void, Nullable<Session>>();
-const $checkSessionStatus = status({ effect: checkSessionFx });
-
-checkSessionFx.use(() => supabase.auth.session());
-
-sample({
-  clock: checkSession,
-  target: checkSessionFx,
-});
-
-sample({
-  clock: authSubscribeFx.finally,
-  target: checkSession,
 });
 
 // Sign In
@@ -139,20 +121,33 @@ type Request = GetServerSidePropsContext["req"];
 export const $session = createStore<Nullable<Session>>(null);
 export const $sessionUser = $session.map((session) => session?.user ?? null);
 export const $cookieUser = createStore<Nullable<User>>(null);
+
+// Cookie User
 export const getUserByCookie = createEvent<Request>();
 export const getUserByCookieFx = createEffect<Request, Nullable<User>>();
 export const $getUserByCookieStatus = status({ effect: getUserByCookieFx });
+
+// Session User
+const checkSessionFx = createEffect<void, Nullable<Session>>();
+export const initialCheckSession = createEvent();
+const initialCheckSessionFx = attach({ effect: checkSessionFx });
+const $initialCheckSessionStatus = status({ effect: initialCheckSessionFx });
+
+export const $showUserLoading = combine(
+  [$getUserByCookieStatus, $initialCheckSessionStatus],
+  ([cookieStatus, sessionStatus]) => {
+    if (cookieStatus === "done" || cookieStatus === "fail") return false;
+    if (sessionStatus === "done" || sessionStatus === "fail") return false;
+    return true;
+  }
+);
+
 const $user = combine(
   [$cookieUser, $sessionUser],
   ([cookieUser, sessionUser]) => cookieUser ?? sessionUser
 );
 
 export const $isLoggedIn = $user.map((user) => user !== null);
-
-getUserByCookieFx.use(async (req) => {
-  const { data: user } = await supabase.auth.api.getUserByCookie(req);
-  return user;
-});
 
 $session
   .on(checkSessionFx.doneData, (_, session) => session)
@@ -163,7 +158,27 @@ $cookieUser
   .reset(getUserByCookieFx.fail)
   .reset(signedOut);
 
+checkSessionFx.use(() => supabase.auth.session());
+
+getUserByCookieFx.use(async (req) => {
+  const { data: user } = await supabase.auth.api.getUserByCookie(req);
+  return user;
+});
+
 sample({
   clock: getUserByCookie,
   target: getUserByCookieFx,
+});
+
+sample({
+  clock: initialCheckSession,
+  source: [$initialCheckSessionStatus, $getUserByCookieStatus],
+  filter: ([sessionStatus, cookieStatus]) =>
+    sessionStatus === "initial" && cookieStatus === "initial",
+  target: initialCheckSessionFx,
+});
+
+sample({
+  clock: authSubscribeFx.done,
+  target: initialCheckSession,
 });
