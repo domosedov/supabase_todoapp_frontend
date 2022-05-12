@@ -148,6 +148,8 @@ const $user = combine(
   ([cookieUser, sessionUser]) => cookieUser ?? sessionUser,
 )
 
+export const $userId = $user.map(user => user?.id ?? null)
+
 export const $isLoggedIn = $user.map(user => user !== null)
 
 $session
